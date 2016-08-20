@@ -69,16 +69,17 @@ public class PracownikServiceTest {
 	@Transactional
 	public void testZnajdzWszystkichPracownikow() {
 		// given
+		int cnt_b4 = pracownikService.znajdzWszystkichPracownikow().size();
 		// when
 		List<PracownikEntity> pracownikEntity = pracownikService.znajdzWszystkichPracownikow();
 		// then
 		assertNotNull(pracownikEntity);
-		assertEquals(221, pracownikEntity.size());
+		assertEquals(cnt_b4, pracownikEntity.size());
 	}
 
 	@Test
 	@Transactional
-	@Rollback(false)
+	//@Rollback(false)
 	public void testDodajPracownika() {
 		// given
 		final Date data = new Date(System.currentTimeMillis());
@@ -106,18 +107,20 @@ public class PracownikServiceTest {
 		pracownik.setAktywny(true);
 		pracownik.setDodatkoweInformacje(dodatkoweInfo);
 		pracownik.setDaneKontaktowe(daneKontaktowe);
-
+		
+		int cnt_b4 = pracownikService.znajdzWszystkichPracownikow().size();
+		
 		// when
 		PracownikEntity pracownikEntity = pracownikService.dodajPracownika(pracownik);
 		List<PracownikEntity> pracownicyEntity = pracownikService.znajdzWszystkichPracownikow();
 		// then
 		assertNotNull(pracownikEntity);
-		assertEquals(222, pracownicyEntity.size());
+		assertEquals(cnt_b4+1, pracownicyEntity.size());
 	}
 
 	@Test
 	@Transactional
-	@Rollback(false)
+	//@Rollback(false)
 	public void testEdytujPracownika() {
 		// given
 		final Date data = new Date(System.currentTimeMillis());
@@ -157,7 +160,7 @@ public class PracownikServiceTest {
 
 	@Test
 	@Transactional
-	@Rollback(false)
+	//@Rollback(false)
 	public void testPrzypiszPracownikaDoDzialu() {
 		// given
 		Long dzialId = 2L;
@@ -172,17 +175,18 @@ public class PracownikServiceTest {
 
 	@Test
 	@Transactional
-	@Rollback(false)
+	//@Rollback(false)
 	public void testUsunPracownika() {
 		// given
 		PracownikEntity pracownik = new PracownikEntity();
 		pracownik = pracownikService.znajdzPracownikaPoId(3L);
 		Long pracownikId = pracownik.getId();
+		int cnt_b4 = pracownikService.znajdzWszystkichPracownikow().size();
 		
 		// when
 		pracownikService.usunPracownika(pracownikId);
 		List<PracownikEntity> pracownicyEntity = pracownikService.znajdzWszystkichPracownikow();
 		// then
-		assertEquals(221, pracownicyEntity.size());
+		assertEquals(cnt_b4-1, pracownicyEntity.size());
 	}
 }

@@ -1,8 +1,10 @@
 package com.capgemini.domain;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -11,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -40,6 +43,9 @@ public class PracownikEntity implements Serializable {
 	
 	@ManyToOne
 	private DzialEntity dzial;
+	
+	@OneToMany(mappedBy = "pracownik",cascade = CascadeType.REMOVE)
+    private Collection<Pracownik2ProjektEntity> assignments; 
 	
 	@Column(name = "aktywny", nullable = false)
 	private boolean aktywny;
