@@ -8,16 +8,26 @@ import org.springframework.stereotype.Repository;
 
 import com.capgemini.dao.Pracownik2ProjektDao;
 import com.capgemini.domain.Pracownik2ProjektEntity;
+import com.capgemini.domain.PracownikEntity;
 
 @Repository
 public class Pracownik2ProjektDaoImpl extends AbstractDao<Pracownik2ProjektEntity, Long>implements Pracownik2ProjektDao {
 
 	@Override
-	public List<Pracownik2ProjektEntity> znajdzPracownikowWProjekcie(Long projekId) {
-		TypedQuery<Pracownik2ProjektEntity> query = entityManager.createNamedQuery("pracownik2projekt.znajdzPracownikowWProjekcie",
-				Pracownik2ProjektEntity.class);
-		query.setParameter("projekt_id", projekId);
-		return null;
+	public List<PracownikEntity> znajdzPracownikowWProjekcie(Long projektId) {
+		TypedQuery<PracownikEntity> query = entityManager.createNamedQuery("pracownik2projekt.znajdzPracownikowWProjekcie",
+				PracownikEntity.class);
+		query.setParameter("projektId", projektId);
+		return query.getResultList();
+	}
+	
+	@Override
+	public List<PracownikEntity> znajdzPracownikowWProjekcieWgOkresu(Long projektId, int iloscMiesiecy) {
+		TypedQuery<PracownikEntity> query = entityManager.createNamedQuery("pracownik2projekt.znajdzPracownikowWProjekcieWgOkresu",
+				PracownikEntity.class);
+		query.setParameter("projektId", projektId);
+		query.setParameter("iloscMiesiecy", iloscMiesiecy);
+		return query.getResultList();
 	}
 
 }

@@ -1,9 +1,11 @@
 package com.capgemini.domain;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -13,15 +15,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Version;
 
 import com.capgemini.enums.Rodzaj;
 
 @Entity
 @Table(name = "PROJEKT")
 @Access(AccessType.FIELD)
-public class ProjektEntity implements Serializable {
+public class ProjektEntity extends BaseEntity implements Serializable  {
 	/**
 	 * 
 	 */
@@ -43,24 +45,15 @@ public class ProjektEntity implements Serializable {
 	@Column(name = "aktywny", nullable = false)
 	private boolean aktywny;
 	
+	@OneToMany(mappedBy = "projekt",cascade = CascadeType.REMOVE)
+    private Collection<Pracownik2ProjektEntity> assignments; 
+	
 	@Embedded
 	private DodatkoweInfo dodatkoweInformacje;
 	
-	@Version
-	@Column(name = "wersja", columnDefinition = "integer DEFAULT 1",  nullable = false)
-	private Long wersja = 1L;
-
 	public ProjektEntity(){
 	}
 	
-	public ProjektEntity(String nazwa, Rodzaj rodzaj, PracownikEntity kierownik, boolean aktywny,
-			DodatkoweInfo dodatkoweInformacje) {
-		this.nazwa = nazwa;
-		this.rodzaj = rodzaj;
-		this.kierownik = kierownik;
-		this.aktywny = aktywny;
-	}
-
 	public Long getId() {
 		return id;
 	}

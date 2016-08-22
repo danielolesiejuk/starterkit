@@ -13,14 +13,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Version;
 
 import com.capgemini.enums.Funkcja;
 
 @Entity
 @Table(name = "PRACOWNIK2PROJEKT")
-public class Pracownik2ProjektEntity implements Serializable{
+@NamedQueries({
+@NamedQuery(name="pracownik2projekt.znajdzPracownikowWProjekcie", query="select prac from Pracownik2ProjektEntity p2p join p2p.pracownik prac where p2p.pracownik.id = prac.id and p2p.projekt.id = :projektId"),
+@NamedQuery(name="pracownik2projekt.znajdzPracownikowWProjekcieWgOkresu", query="select pracownik from Pracownik2ProjektEntity p2p join p2p.pracownik pracownik where p2p.pracownik.id = pracownik.id and p2p.projekt.id = :projektId and ( (( TIMESTAMPDIFF(SQL_TSI_MONTH , p2p.dataRozpoczeciaPracy, CURRENT_DATE()) > :iloscMiesiecy) and p2p.dataZakonczeniaPracy = null)   or  ( TIMESTAMPDIFF(SQL_TSI_MONTH , p2p.dataRozpoczeciaPracy, p2p.dataZakonczeniaPracy) > :iloscMiesiecy))")
+})
+public class Pracownik2ProjektEntity extends BaseEntity implements Serializable{
 
 	/**
 	 * 
@@ -40,36 +45,22 @@ public class Pracownik2ProjektEntity implements Serializable{
 	@Enumerated(EnumType.STRING)
 	private Funkcja funkcja;
 	
-	@Column(name = "wynagrodzenie", nullable = false)
+	@Column(name = "wynagrodzenie", nullable = true)
 	private Long wynagrodzenie;
 	
-	@Column(name = "data_rozpoczecia_pracy", nullable = false)
+	@Column(name = "data_rozpoczecia_pracy", nullable = true)
 	private Date dataRozpoczeciaPracy;
 	
-	@Column(name = "data_zakonczenia_pracy", nullable = false)
+	@Column(name = "data_zakonczenia_pracy", nullable = true)
 	private Date dataZakonczeniaPracy;
 	
 	@Embedded
 	private DodatkoweInfo dodatkoweInformacje;
 	
-	@Version
-	@Column(name = "wersja", columnDefinition = "integer DEFAULT 1",  nullable = false)
-	private Long wersja = 1L;
 
 	public Pracownik2ProjektEntity(){
 	}
 	
-	public Pracownik2ProjektEntity(PracownikEntity pracownik, ProjektEntity projekt, Funkcja funkcja, Long wynagrodzenie,
-			Date dataRozpoczeciaPracy, Date dataZakonczeniaPracy, DodatkoweInfo dodatkoweInformacje) {
-		this.pracownik = pracownik;
-		this.projekt = projekt;
-		this.funkcja = funkcja;
-		this.wynagrodzenie = wynagrodzenie;
-		this.dataRozpoczeciaPracy = dataRozpoczeciaPracy;
-		this.dataZakonczeniaPracy = dataZakonczeniaPracy;
-		this.dodatkoweInformacje = dodatkoweInformacje;
-	}
-
 	public Long getId() {
 		return id;
 	}

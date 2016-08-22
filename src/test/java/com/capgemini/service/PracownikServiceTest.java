@@ -89,9 +89,7 @@ public class PracownikServiceTest {
 
 		final DodatkoweInfo dodatkoweInfo = new DodatkoweInfo();
 		dodatkoweInfo.setStworzonyPrzez("Daniel");
-		dodatkoweInfo.setStworzonyDnia(data);
 		dodatkoweInfo.setZmodyfikowanyPrzez("Daniel");
-		dodatkoweInfo.setZmodyfikowanyDnia(data);
 
 		final DaneKontaktowe daneKontaktowe = new DaneKontaktowe();
 		daneKontaktowe.setEmail("email@domena.pl");
@@ -130,9 +128,7 @@ public class PracownikServiceTest {
 
 		final DodatkoweInfo dodatkoweInfo = new DodatkoweInfo();
 		dodatkoweInfo.setStworzonyPrzez("Daniel");
-		dodatkoweInfo.setStworzonyDnia(data);
 		dodatkoweInfo.setZmodyfikowanyPrzez("Daniel");
-		dodatkoweInfo.setZmodyfikowanyDnia(data);
 
 		final DaneKontaktowe daneKontaktowe = new DaneKontaktowe();
 		daneKontaktowe.setEmail("email@domena.pl");
@@ -179,7 +175,7 @@ public class PracownikServiceTest {
 	public void testUsunPracownika() {
 		// given
 		PracownikEntity pracownik = new PracownikEntity();
-		pracownik = pracownikService.znajdzPracownikaPoId(3L);
+		pracownik = pracownikService.znajdzPracownikaPoId(5L);
 		Long pracownikId = pracownik.getId();
 		int cnt_b4 = pracownikService.znajdzWszystkichPracownikow().size();
 		

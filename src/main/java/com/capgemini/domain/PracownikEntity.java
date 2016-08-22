@@ -15,13 +15,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Version;
 
 
 @Entity
 @Table(name = "PRACOWNIK")
 @NamedQuery(name="pracownik.znajdzPracownikaWgDzialu", query="select pracownik from PracownikEntity pracownik join pracownik.dzial dzial where dzial.id = :dzialId")
-public class PracownikEntity implements Serializable {
+public class PracownikEntity extends BaseEntity implements Serializable {
 
 	/**
 	 * 
@@ -56,23 +55,7 @@ public class PracownikEntity implements Serializable {
 	@Embedded
 	private DaneKontaktowe daneKontaktowe;
 	
-	@Version
-	@Column(name = "wersja", columnDefinition = "integer DEFAULT 1",  nullable = false)
-	private Long wersja = 1L;
-	
 	public PracownikEntity(){
-	}
-
-	public PracownikEntity(String imie, String nazwisko, Long pesel, Date dataUrodzenia, DzialEntity dzial,
-			boolean aktywny, DodatkoweInfo dodatkoweInformacje, DaneKontaktowe daneKontaktowe) {
-		this.imie = imie;
-		this.nazwisko = nazwisko;
-		this.pesel = pesel;
-		this.dataUrodzenia = dataUrodzenia;
-		this.dzial = dzial;
-		this.aktywny = aktywny;
-		this.dodatkoweInformacje = dodatkoweInformacje;
-		this.daneKontaktowe = daneKontaktowe;
 	}
 
 	public Long getId() {

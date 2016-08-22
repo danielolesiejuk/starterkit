@@ -1,19 +1,21 @@
 package com.capgemini.domain;
 
 import java.io.Serializable;
+import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Version;
 
 @Entity
 @Table(name = "DZIAL")
-public class DzialEntity implements Serializable{
+public class DzialEntity extends BaseEntity implements Serializable{
 
 	/**
 	 * 
@@ -30,22 +32,16 @@ public class DzialEntity implements Serializable{
 	@Column(name = "aktywny", nullable = false)
 	private boolean aktywny;
 	
+	@OneToMany(mappedBy = "dzial",cascade = CascadeType.REMOVE)
+    private Collection<PracownikEntity> assignments;
+	
 	@Embedded
 	private DodatkoweInfo dodatkoweInformacje;
 	
 	@Embedded
 	private DaneKontaktowe daneKontaktowe;
 	
-	@Version
-	@Column(name = "wersja", columnDefinition = "integer DEFAULT 1",  nullable = false)
-	private Long wersja = 1L;
-	
 	public DzialEntity(){
-	}
-	
-	public DzialEntity(String nazwa, boolean aktywny) {
-		this.nazwa = nazwa;
-		this.aktywny = aktywny;
 	}
 
 	public Long getId() {
