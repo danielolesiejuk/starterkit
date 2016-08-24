@@ -118,7 +118,7 @@ public class PracownikServiceTest {
 
 	@Test
 	@Transactional
-	//@Rollback(false)
+	@Rollback(false)
 	public void testEdytujPracownika() {
 		// given
 		final Date data = new Date(System.currentTimeMillis());
